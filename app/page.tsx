@@ -1,9 +1,9 @@
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center  justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] shadow-dark-200 sm:p-20">
      
-     <h1 className="text-3xl text-violet-100 font-black" > temp</h1>
+     <h1 className="text-3xl font-black text-primary-500 " > adafaudhfaidvandfovnadvjnadivojnadvtemp</h1>
     </div>
   );
-}
+} 
