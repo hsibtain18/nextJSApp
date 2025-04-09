@@ -3,11 +3,30 @@
 import Image from "next/image";
 import React from "react";
 import { Button } from "../ui/button";
+import { signIn } from "next-auth/react";
+import { toast } from "@/hooks/use-toast";
+import ROUTES from "@/constants/Routes";
 
 const SocialAuthForm = () => {
   const buttonClass =
     "background-dark400_light900 body-medium text-dark200_light800 min-h-12 flex-1 rounded-2 px-4 py-3.5";
-  const handleSignIn = async (provider: "github" | "google") => {};
+  const handleSignIn = async (provider: "github" | "google") => {
+    try {
+     await signIn(provider, {
+      callbackUrl:ROUTES.HOME,
+      redirect:false
+     })
+    } catch (error) {
+      toast({
+        title: "An error as occurred",
+        description:
+          error instanceof Error
+            ? error.message
+            : "An internal error has occurred ",
+        variant: "destructive",
+      });
+    }
+  };
   return (
     <div className="mt-10 flex flex-wrap gap-2.5">
       <Button className={buttonClass} onClick={() => handleSignIn("github")}>

@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import React from "react";
+import React, { ReactNode } from "react";
 
 import ThemeProvider from "@/context/Theme";
+import { Toaster } from "@/components/ui/toaster";
+import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
 
 const inter = localFont({
   src: "./fonts/interVF.ttf",
   variable: "--font-inter",
   weight: "100 200 300 400 500 600 700 900",
 });
-const SpaceGrotesk = localFont({
+const spaceGrotesk = localFont({
   src: "./fonts/SpaceGrotesk.ttf",
   variable: "--font-space-grotesk",
   weight: "300 400 500 600 700",
@@ -24,19 +27,28 @@ export const metadata: Metadata = {
     icon: "/images/site-logo.svg",
   },
 };
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const RootLayout = async ({ children }: { children: ReactNode }) => {
+  const session = await auth();
+
   return (
-    <html lang="en" suppressHydrationWarning >
-      <body
-        className={`${inter.className} ${SpaceGrotesk.variable}  antialiased`}
-      >
-        <ThemeProvider attribute='class' defaultTheme="system"  >
-          {children}</ThemeProvider>
-      </body>
+    <html lang="en" suppressHydrationWarning>
+      <SessionProvider session={session}>
+        <body
+          className={`${inter.className} ${spaceGrotesk.variable} antialiased`}
+        >
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+          <Toaster />
+        </body>
+      </SessionProvider>
     </html>
   );
-}
+};
+
+export default RootLayout;

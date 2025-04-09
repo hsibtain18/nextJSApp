@@ -1,8 +1,29 @@
+import { auth, signOut } from "@/auth";
+import { Button } from "@/components/ui/button";
+import ROUTES from "@/constants/Routes";
  
-export default function Home() {
+
+const Home = async () => {
+  const session = await auth();
+
+  console.log(session);
+
   return (
-    <div className="  grid min-h-screen grid-rows-[20px_1fr_20px] items-center  justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] shadow-dark-200 sm:p-20">
-      
-    </div>
+    <>
+      <h1 className="h1-bold">Welcome to the world of Next.js</h1>
+
+      <form
+        className="px-10 pt-[100px]"
+        action={async () => {
+          "use server";
+
+          await signOut({ redirectTo: ROUTES.SIGN_IN });
+        }}
+      >
+        <Button type="submit">Log out</Button>
+      </form>
+    </>
   );
-}
+};
+
+export default Home;
